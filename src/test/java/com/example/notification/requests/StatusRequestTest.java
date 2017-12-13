@@ -19,7 +19,7 @@ package com.example.notification.requests;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-public class StageStatusRequestTest {
+public class StatusRequestTest {
 
     @Test
     public void shouldDeserializeFromJSONWithoutLoosingAnyData() throws Exception {
@@ -197,8 +197,8 @@ public class StageStatusRequestTest {
                 "  }\n" +
                 "}";
 
-        StageStatusRequest request = StageStatusRequest.fromJSON(json);
-        String serializedAgain = StageStatusRequest.GSON.toJson(request);
+        StatusRequest request = StatusRequest.fromJSON(json);
+        String serializedAgain = StatusRequest.GSON.toJson(request);
         JSONAssert.assertEquals(json, serializedAgain, true);
     }
 }

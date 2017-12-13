@@ -23,16 +23,18 @@ import com.google.gson.JsonObject;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
-import static com.example.notification.Request.REQUEST_STAGE_STATUS;
+import static com.example.notification.Request.*;
 
 public class NotificationInterestedInExecutor implements RequestExecutor {
     private static final Gson GSON = new Gson();
 
     @Override
     public GoPluginApiResponse execute() throws Exception {
-        JsonObject jsonObject = new JsonObject();
+        
         JsonArray notifications = new JsonArray();
-        notifications.add(REQUEST_STAGE_STATUS.requestName());
+        notifications.add(REQUEST_STATUS_STAGE.requestName());
+        
+        JsonObject jsonObject = new JsonObject();
         jsonObject.add("notifications", notifications);
 
         DefaultGoPluginApiResponse defaultGoPluginApiResponse = new DefaultGoPluginApiResponse(200);

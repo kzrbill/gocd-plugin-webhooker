@@ -18,7 +18,7 @@ package com.example.notification.executors;
 import com.example.notification.PluginRequest;
 import com.example.notification.RequestExecutor;
 import com.example.notification.loggers.LoggerProxy;
-import com.example.notification.requests.StageStatusRequest;
+import com.example.notification.requests.StatusRequest;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,15 +30,15 @@ import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
 import java.util.HashMap;
 
-public class StageStatusRequestExecutor implements RequestExecutor {
+public class StatusRequestExecutor implements RequestExecutor {
 
     private static final Gson GSON = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
-    private final StageStatusRequest request;
+    private final StatusRequest request;
     private final PluginRequest pluginRequest;
     private final LoggerProxy logger;
 
-    public StageStatusRequestExecutor(StageStatusRequest request, PluginRequest pluginRequest) {
+    public StatusRequestExecutor(StatusRequest request, PluginRequest pluginRequest) {
         this.request = request;
         this.pluginRequest = pluginRequest;
         this.logger = new LoggerProxy();
@@ -70,12 +70,11 @@ public class StageStatusRequestExecutor implements RequestExecutor {
             logger.info(e.toString());
             throw e;
         }
-
     }
 
     private void postStageToApi() throws Exception {
         String stageStatusJson = GSON.toJson(request);
-        HttpResponse<JsonNode> jsonResponse = Unirest.post("http://localhost:3000/api/notifications/stage-status")
+        HttpResponse<JsonNode> jsonResponse = Unirest.post("http://localhost:3000/api/notifications/status")
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .body(stageStatusJson)

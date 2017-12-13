@@ -18,7 +18,7 @@ package com.example.notification.requests;
 
 import com.example.notification.PluginRequest;
 import com.example.notification.RequestExecutor;
-import com.example.notification.executors.StageStatusRequestExecutor;
+import com.example.notification.executors.StatusRequestExecutor;
 import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.internal.bind.util.ISO8601Utils;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class StageStatusRequest {
+public class StatusRequest {
     public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Date.class, new DefaultDateTypeAdapter(DATE_PATTERN))
@@ -42,12 +42,12 @@ public class StageStatusRequest {
 
     public Pipeline pipeline;
 
-    public static StageStatusRequest fromJSON(String json) {
-        return GSON.fromJson(json, StageStatusRequest.class);
+    public static StatusRequest fromJSON(String json) {
+        return GSON.fromJson(json, StatusRequest.class);
     }
 
     public RequestExecutor executor(PluginRequest pluginRequest) {
-        return new StageStatusRequestExecutor(this, pluginRequest);
+        return new StatusRequestExecutor(this, pluginRequest);
     }
 
     public static class Pipeline {

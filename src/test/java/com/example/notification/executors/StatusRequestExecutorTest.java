@@ -23,11 +23,11 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class StageStatusRequestExecutorTest {
+public class StatusRequestExecutorTest {
 
     @Test
     public void shouldRenderASuccessResponseIfNotificationWasSent() throws Exception {
-        GoPluginApiResponse response = new StageStatusRequestExecutor(null, null) {
+        GoPluginApiResponse response = new StatusRequestExecutor(null, null) {
             @Override
             protected void sendNotification() {
                 // do nothing!
@@ -38,16 +38,16 @@ public class StageStatusRequestExecutorTest {
         JSONAssert.assertEquals("{\"status\":\"success\"}", response.responseBody(), true);
     }
 
-//    @Test
-//    public void shouldRenderAnErrorResponseIfNotificationWasNotSent() throws Exception {
-//        GoPluginApiResponse response = new StageStatusRequestExecutor(null, null) {
-//            @Override
-//            protected void sendNotification() {
-//                throw new RuntimeException("Boom!");
-//            }
-//        }.execute();
-//
-//        assertThat(response.responseCode(), is(200));
-//        JSONAssert.assertEquals("{\"status\":\"failure\",\"messages\":[\"Boom!\"]}", response.responseBody(), true);
-//    }
+    @Test
+    public void shouldRenderAnErrorResponseIfNotificationWasNotSent() throws Exception {
+        GoPluginApiResponse response = new StatusRequestExecutor(null, null) {
+            @Override
+            protected void sendNotification() {
+                throw new RuntimeException("Boom!");
+            }
+        }.execute();
+
+        assertThat(response.responseCode(), is(200));
+        JSONAssert.assertEquals("{\"status\":\"failure\",\"message\":\"Boom!\"}", response.responseBody(), true);
+    }
 }
