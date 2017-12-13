@@ -18,23 +18,13 @@ import java.util.logging.SimpleFormatter;
  */
 public class LoggerProxy {
     
-    public void info(String message) {
-        
-        try {
-
-            Logger logger = Logger.getLogger("com.example.notification.loggers");
-            Path path = FileSystems.getDefault().getPath("plugin-cd.pushy-hooker.log");
-            FileHandler fh = new FileHandler(path.toString());
-            logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-
-            logger.info(message);
-
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void info(String message) throws IOException {
+        Logger logger = Logger.getLogger("com.example.notification.loggers");
+        Path path = FileSystems.getDefault().getPath("plugin-cd.pushy-hooker.log");
+        FileHandler fh = new FileHandler(path.toString());
+        logger.addHandler(fh);
+        SimpleFormatter formatter = new SimpleFormatter();
+        fh.setFormatter(formatter);
+        logger.info(message);
     }
 }

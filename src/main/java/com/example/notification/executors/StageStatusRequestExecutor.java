@@ -17,18 +17,17 @@ package com.example.notification.executors;
 
 import com.example.notification.PluginRequest;
 import com.example.notification.RequestExecutor;
+import com.example.notification.loggers.LoggerProxy;
 import com.example.notification.requests.StageStatusRequest;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class StageStatusRequestExecutor implements RequestExecutor {
@@ -37,10 +36,12 @@ public class StageStatusRequestExecutor implements RequestExecutor {
 
     private final StageStatusRequest request;
     private final PluginRequest pluginRequest;
+    private final LoggerProxy logger;
 
     public StageStatusRequestExecutor(StageStatusRequest request, PluginRequest pluginRequest) {
         this.request = request;
         this.pluginRequest = pluginRequest;
+        this.logger = new LoggerProxy();
     }
 
     @Override
@@ -49,11 +50,9 @@ public class StageStatusRequestExecutor implements RequestExecutor {
         try {
             sendNotification();
             responseJson.put("status", "success");
-//            responseJson.put("message", "complete");
         } catch (Exception e) {
             responseJson.put("status", "failure");
             responseJson.put("message", e.getMessage());
-            // responseJson.put("messages", Arrays.asList(e.getMessage()));
         }
         return new DefaultGoPluginApiResponse(200, GSON.toJson(responseJson));
     }
@@ -63,22 +62,23 @@ public class StageStatusRequestExecutor implements RequestExecutor {
         // If you need access to settings like API keys, URLs, then call PluginRequest#getPluginSettings
         // PluginSettings pluginSettings = pluginRequest.getPluginSettings();
 
-        this.postStageToApi();
+        logger.info("Send notification");
+
+        try {
+            this.postStageToApi();
+        } catch (Exception e) {
+            logger.info(e.toString());
+            throw e;
+        }
+
     }
 
     private void postStageToApi() throws Exception {
-
-        // throw new PostStageToApiException();
-        
-        String json = GSON.toJson(this.request);
-        String encodedData = URLEncoder.encode(json, "UTF-8");
-        URL url = new URL("http://localhost:3000/api/notifications/stage-status");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setRequestProperty("Content-Length", String.valueOf(encodedData.length()));
-        OutputStream os = conn.getOutputStream();
-        os.write(encodedData.getBytes());
+        String stageStatusJson = GSON.toJson(request);
+        HttpResponse<JsonNode> jsonResponse = Unirest.post("http://localhost:3000/api/notifications/stage-status")
+                .header("Content-Type", "application/json")
+                .header("Accept", "application/json")
+                .body(stageStatusJson)
+                .asJson();
     }
 }
