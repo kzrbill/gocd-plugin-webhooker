@@ -17,7 +17,6 @@ package com.kzrbill.gocd.plugin.webhooker.executors;
 
 import com.kzrbill.gocd.plugin.webhooker.PluginRequest;
 import com.kzrbill.gocd.plugin.webhooker.RequestExecutor;
-import com.kzrbill.gocd.plugin.webhooker.loggers.LoggerProxy;
 import com.kzrbill.gocd.plugin.webhooker.requests.StatusRequest;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -25,6 +24,7 @@ import com.google.gson.GsonBuilder;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
@@ -33,15 +33,14 @@ import java.util.HashMap;
 public class StatusRequestExecutor implements RequestExecutor {
 
     private static final Gson GSON = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    public static final Logger LOG = Logger.getLoggerFor(StatusRequestExecutor.class);
 
     private final StatusRequest request;
     private final PluginRequest pluginRequest;
-    private final LoggerProxy logger;
 
     public StatusRequestExecutor(StatusRequest request, PluginRequest pluginRequest) {
         this.request = request;
         this.pluginRequest = pluginRequest;
-        this.logger = new LoggerProxy();
     }
 
     @Override
@@ -58,16 +57,10 @@ public class StatusRequestExecutor implements RequestExecutor {
     }
 
     protected void sendNotification() throws Exception {
-        // TODO: Implement this. The request.pipeline object has all the details about the pipeline, materials, stages and jobs
-        // If you need access to settings like API keys, URLs, then call PluginRequest#getPluginSettings
-        // PluginSettings pluginSettings = pluginRequest.getPluginSettings();
-
-        logger.info("Send notification");
-
         try {
             this.postStageToApi();
         } catch (Exception e) {
-            logger.info(e.toString());
+            LOG.error("Error in sendNotification", e);
             throw e;
         }
     }
