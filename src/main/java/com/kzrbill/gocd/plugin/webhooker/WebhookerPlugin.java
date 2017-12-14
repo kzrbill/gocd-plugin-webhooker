@@ -31,9 +31,9 @@ import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
 @Extension
-public class ExamplePlugin implements GoPlugin {
+public class WebhookerPlugin implements GoPlugin {
 
-    public static final Logger LOG = Logger.getLoggerFor(ExamplePlugin.class);
+    public static final Logger LOG = Logger.getLoggerFor(WebhookerPlugin.class);
 
     private GoApplicationAccessor accessor;
     private PluginRequest pluginRequest;

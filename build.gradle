@@ -16,18 +16,18 @@
 
 apply plugin: 'java'
 
-group = 'com.example.notification.template'
-version = '0.1-SNAPSHOT'
+group = 'com.kzrbill.gocd.plugin.webhooker'
+version = '0.1'
 
 // these values that go into plugin.xml
 project.ext.pluginDesc = [
-    id         : 'com.example.notification.systemout',
+    id         : 'com.kzrbill.gocd.plugin.webhooker',
     version    : project.version,
     goCdVersion: '16.2.1',
-    name       : 'Example Notification Plugin that prints to `System.out`',
-    description: 'Some longer description of your plugin goes here',
-    vendorName : 'Acme Corp',
-    vendorUrl  : 'https://github.com/user/repository'
+    name       : 'Webhooker Plugin',
+    description: 'Webhooker ',
+    vendorName : 'Will Grange',
+    vendorUrl  : 'https://github.com/kzrbill/gocd-plugin-webhooker'
 ]
 
 // Force 1.7 compatibility to ensure that it works with older JVMs
