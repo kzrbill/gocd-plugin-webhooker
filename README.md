@@ -1,19 +1,67 @@
-# Notification plugin skeleton
+# GoCD Webhooker Plugin
 
-This is merely a skeleton plugin that plugin developers can fork to get quickly
-started with writing notification plugins for GoCD.
+Simple webhook plugin so go can send stage status update to your rest API.
 
-## Getting started
+Configure a rest endpoint to receive POST request from go with payloads that look like this:
 
-* Edit the file `build.gradle`
-* Edit the `GetPluginConfigurationExecutor.java` class to add any configuration fields that should be shown in the view.
-* Edit the `plugin-settings.template.html` file which contains the view for the plugin settings page of your plugin.
-* Edit the `PluginSettings.java` file which contains the model for your settings.
-* Implement the `StageStatusRequestExecutor.java` class to get a basic notification plugin working.
+```json
+{
+  "pipeline": {
+    "name": "gometric_pull_and_accept_pipeline",
+    "counter": "41",
+    "group": "go",
+    "build-cause": [
+      {
+        "material": {
+          "git-configuration": {
+            "shallow-clone": false,
+            "branch": "master",
+            "url": "https://github.com/kzrbill/gometrics"
+          },
+          "type": "git"
+        },
+        "changed": true,
+        "modifications": [
+          {
+            "revision": "dd281569af5177bc8f8022c940574d5483b7f72a",
+            "modified-time": "Dec 9, 2017 11:46:18 AM",
+            "data": {}
+          }
+        ]
+      }
+    ],
+    "stage": {
+      "name": "node_accepts_stage",
+      "counter": "19",
+      "approval-type": "success",
+      "approved-by": "gouser",
+      "state": "Building",
+      "result": "Unknown",
+      "create-time": "Dec 13, 2017 4:06:00 PM",
+      "jobs": [
+        {
+          "name": "npm_test_job",
+          "schedule-time": "Dec 13, 2017 4:06:00 PM",
+          "state": "Scheduled",
+          "result": "Unknown"
+        }
+      ]
+    }
+  }
+}
+```
+
+Until the functionality is added to the plugin, you will need to update the URL in StatusRequestExecutor postStageToApi method, then build.
 
 ## Building the code base
 
 To build the jar, run `./gradlew clean test assemble`
+
+## Deploy
+
+Copy the jar product to Go Server/plugins/external dir
+
+Restart the Go Server.
 
 ## License
 
