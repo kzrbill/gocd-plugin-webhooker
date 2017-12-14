@@ -27,7 +27,7 @@ project.ext.pluginDesc = [
     name       : 'Webhooker Plugin',
     description: 'Webhooker ',
     vendorName : 'Will Grange',
-    vendorUrl  : 'https://github.com/kzrbill/gocd-plugin-webhooker'
+    vendorUrl  : 'https://github.com/kzrbill/ope'
 ]
 
 // Force 1.7 compatibility to ensure that it works with older JVMs

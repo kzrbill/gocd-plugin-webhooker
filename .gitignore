@@ -16,3 +16,6 @@ plugin.deploy.sh
 # IntelliJ
 *.iml
 out/
+
+#MacOS files
+.DS_Store
