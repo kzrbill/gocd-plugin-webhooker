@@ -12,3 +12,7 @@ build/
 /.nb-gradle/
 
 plugin.deploy.sh
+
+# IntelliJ
+*.iml
+out/
