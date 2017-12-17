@@ -16,16 +16,16 @@
 
 apply plugin: 'java'
 
-group = 'com.kzrbill.gocd.plugin.webhooker'
+group = 'com.kzrbill.gocd.plugin.notifications.webhooks'
 version = '0.1'
 
 // these values that go into plugin.xml
 project.ext.pluginDesc = [
-    id         : 'com.kzrbill.gocd.plugin.webhooker',
+    id         : 'com.kzrbill.gocd.plugin.notifications.webhooks',
     version    : project.version,
     goCdVersion: '16.2.1',
-    name       : 'Webhooker Plugin',
-    description: 'Webhook plugin for Go to POST stage status update requests to your REST API. ',
+    name       : 'Webhook Notifications Plugin',
+    description: 'Webhook notifications plugin for Go to POST stage status update requests to your REST API. ',
     vendorName : 'Will Grange',
     vendorUrl  : 'https://github.com/kzrbill/ope'
 ]

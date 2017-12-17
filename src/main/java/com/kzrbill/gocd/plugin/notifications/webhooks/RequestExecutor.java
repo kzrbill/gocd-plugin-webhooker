@@ -14,4 +14,11 @@
  * limitations under the License.
  */
 
-rootProject.name = 'gocd-plugin-webhooks'
+package com.kzrbill.gocd.plugin.notifications.webhooks;
+
+import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+
+public interface RequestExecutor {
+
+    GoPluginApiResponse execute() throws Exception;
+}
