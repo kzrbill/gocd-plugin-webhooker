@@ -1,6 +1,6 @@
-# GoCD Webhooker Plugin
+# GoCD Webhooks Plugin
 
-Simple webhook plugin so go can send stage status update to your rest API.
+Simple webhooks plugin so go can send stage status update to your rest API.
 
 Configure a rest endpoint to receive POST request from go with payloads that look like this:
 

@@ -16,6 +16,7 @@
 package com.kzrbill.gocd.plugin.notifications.webhooks.executors;
 
 import com.kzrbill.gocd.plugin.notifications.webhooks.PluginRequest;
+import com.kzrbill.gocd.plugin.notifications.webhooks.PluginSettings;
 import com.kzrbill.gocd.plugin.notifications.webhooks.RequestExecutor;
 import com.kzrbill.gocd.plugin.notifications.webhooks.requests.StatusRequest;
 import com.google.gson.FieldNamingPolicy;
@@ -67,7 +68,8 @@ public class StatusRequestExecutor implements RequestExecutor {
 
     private void postStageToApi() throws Exception {
         String stageStatusJson = GSON.toJson(request);
-        HttpResponse<JsonNode> jsonResponse = Unirest.post("http://localhost:3000/api/notifications/status")
+        PluginSettings settings = this.pluginRequest.getPluginSettings();
+        HttpResponse<JsonNode> jsonResponse = Unirest.post(settings.getApiUrl())
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .body(stageStatusJson)

@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-rootProject.name = 'gocd-plugin-webhooks'
+rootProject.name = 'gocd-webhooks-plugin'
