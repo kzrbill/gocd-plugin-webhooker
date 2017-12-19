@@ -32,18 +32,14 @@ public class GetPluginConfigurationExecutor implements RequestExecutor {
 
     private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-    public static final Field GO_SERVER_URL = new NonBlankField("go_server_url", "Go Server URL", null, true, false, "0");
-    public static final Field API_SERVER_URL = new NonBlankField("api_url", "API URL", null, true, false, "1");
-    public static final Field API_USER = new NonBlankField("api_user", "API User", null, true, false, "2");
-    public static final Field API_KEY = new NonBlankField("api_key", "API Key", null, true, false, "3");
+    public static final Field API_SERVER_URL = new NonBlankField("api_url", "API URL", null, true, false, "0");
+    public static final Field SECRET = new NonBlankField("secret", "Secret", null, true, false, "1");
 
     public static final Map<String, Field> FIELDS = new LinkedHashMap<>();
 
     static {
-        FIELDS.put(GO_SERVER_URL.key(), GO_SERVER_URL);
         FIELDS.put(API_SERVER_URL.key(), API_SERVER_URL);
-        FIELDS.put(API_USER.key(), API_USER);
-        FIELDS.put(API_KEY.key(), API_KEY);
+        FIELDS.put(SECRET.key(), SECRET);
     }
 
     public GoPluginApiResponse execute() {

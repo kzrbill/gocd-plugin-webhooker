@@ -17,28 +17,17 @@
 <!--
 This page contains the view for your settings.
 Ensure that the keys you use are also declared in the GetPluginConfigurationExecutor class
-TODO: change this to your needs
 -->
-<div class="form_item_block">
-  <label>Go Server URL:<span class='asterix'>*</span></label>
-  <input type="text" ng-model="go_server_url" ng-required="true"/>
-  <span class="form_error" ng-show="GOINPUTNAME[go_server_url].$error.server">{{GOINPUTNAME[go_server_url].$error.server}}</span>
-</div>
 
 <div class="form_item_block">
-  <label>Api URL:<span class='asterix'>*</span></label>
+  <label>Api URL:<span class='asterix'>*</span> <p>The API URL that Go will POST stage status updates to as a JSON body.</p></label>
   <input type="text" ng-model="api_url" ng-required="true"/>
   <span class="form_error" ng-show="GOINPUTNAME[api_url].$error.server">{{GOINPUTNAME[api_url].$error.server}}</span>
 </div>
 
 <div class="form_item_block">
-  <label>Api User:<span class='asterix'>*</span></label>
-  <input type="text" ng-model="api_user" ng-required="true"/>
-  <span class="form_error" ng-show="GOINPUTNAME[api_user].$error.server">{{GOINPUTNAME[api_user].$error.server}}</span>
+  <label>Api Secret:<span class='asterix'>*</span>. <p>If provided, the secret will be used as the key to generate the HMAC hex digest value in the X-Hub-Signature header.</p></label>
+  <input type="text" ng-model="secret" ng-required="true"/>
+  <span class="form_error" ng-show="GOINPUTNAME[secret].$error.server">{{GOINPUTNAME[secret].$error.server}}</span>
 </div>
 
-<div class="form_item_block">
-  <label>Api Key:<span class='asterix'>*</span></label>
-  <input type="password" ng-model="api_key" ng-required="true"/>
-  <span class="form_error" ng-show="GOINPUTNAME[api_key].$error.server">{{GOINPUTNAME[api_key].$error.server}}</span>
-</div>

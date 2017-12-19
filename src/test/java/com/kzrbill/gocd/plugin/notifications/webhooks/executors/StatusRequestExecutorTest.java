@@ -16,6 +16,7 @@
 
 package com.kzrbill.gocd.plugin.notifications.webhooks.executors;
 
+import com.kzrbill.gocd.plugin.notifications.webhooks.stubs.ApiRequestStub;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -49,5 +50,11 @@ public class StatusRequestExecutorTest {
 
         assertThat(response.responseCode(), is(200));
         JSONAssert.assertEquals("{\"status\":\"failure\",\"message\":\"Boom!\"}", response.responseBody(), true);
+    }
+
+    @Test
+    public void postsStatusUpdatesToTheApi() throws Exception {
+        ApiRequestStub apiRequest =  new ApiRequestStub();
+        StatusRequestExecutor executor = new StatusRequestExecutor(null, null, apiRequest);
     }
 }

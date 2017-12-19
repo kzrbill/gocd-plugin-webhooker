@@ -18,6 +18,8 @@ package com.kzrbill.gocd.plugin.notifications.webhooks.executors;
 import com.kzrbill.gocd.plugin.notifications.webhooks.PluginRequest;
 import com.kzrbill.gocd.plugin.notifications.webhooks.PluginSettings;
 import com.kzrbill.gocd.plugin.notifications.webhooks.RequestExecutor;
+import com.kzrbill.gocd.plugin.notifications.webhooks.requests.ApiRequest;
+import com.kzrbill.gocd.plugin.notifications.webhooks.requests.ApiRequestProxy;
 import com.kzrbill.gocd.plugin.notifications.webhooks.requests.StatusRequest;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -38,10 +40,16 @@ public class StatusRequestExecutor implements RequestExecutor {
 
     private final StatusRequest request;
     private final PluginRequest pluginRequest;
+    private final ApiRequest apiRequest;
 
-    public StatusRequestExecutor(StatusRequest request, PluginRequest pluginRequest) {
+    public StatusRequestExecutor(StatusRequest request, PluginRequest pluginRequest, ApiRequest apiRequest) {
         this.request = request;
         this.pluginRequest = pluginRequest;
+        this.apiRequest = apiRequest;
+    }
+
+    public StatusRequestExecutor(StatusRequest request, PluginRequest pluginRequest) {
+        this(request, pluginRequest, new ApiRequestProxy());
     }
 
     @Override
