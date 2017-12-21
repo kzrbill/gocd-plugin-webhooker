@@ -46,7 +46,7 @@ public class StatusRequestExecutorTest {
         new StatusRequestExecutor(statusRequest, pluginRequest, apiRequest)
                 .execute();
 
-        Assert.assertEquals("3bcfc9bea8f1d9122d7efb95889db15ac6c975bd9b76835332b26d91e0edb634", apiRequest.appliedHeader("X-Hub-Signature"));
+        Assert.assertEquals("sha256=3bcfc9bea8f1d9122d7efb95889db15ac6c975bd9b76835332b26d91e0edb634", apiRequest.appliedHeader("X-Hub-Signature"));
         Assert.assertEquals(1, apiRequest.totalPostsCalls());
         Assert.assertEquals("{\"pipeline\":{\"name\":\"A pipeline name\"}}", apiRequest.requestJsonSent());
     }

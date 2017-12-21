@@ -93,6 +93,6 @@ public class StatusRequestExecutor implements RequestExecutor {
         SecretKeySpec secretKey = new SecretKeySpec(secretBytes, "HmacSHA256");
         hmacSHA256.init(secretKey);
         byte[] dataBytes = data.getBytes("UTF-8");
-        return Hex.encodeHexString(hmacSHA256.doFinal(dataBytes));
+        return "sha256=" + Hex.encodeHexString(hmacSHA256.doFinal(dataBytes));
     }
 }

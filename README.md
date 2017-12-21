@@ -51,12 +51,36 @@ Create a REST endpoint to receive POST request from Go with JSON body payloads t
 }
 ```
 
-## Configuration
+## Settings
 
-Set your API url in the "Webhook Notifications Plugin"'s plugin settings accessible by clicking on the little cog icon.
+Webhook Notifications Plugin's settings are accessible by clicking on the little cog icon.
 
-Note: Secret not implemented at this time but will be used to create a header token with the post body using the SHA1
-algorithm, as per GitHub's [webhook authorization approach](https://developer.github.com/webhooks/securing/).
+### Api URL (required)
+
+The URL of your POST endpoint which will receive stage status updates from Go.
+
+### Secret (required)
+
+This secret is used to create a HMAC X-Hub-Signature using the *sha256* algorithm, similar to GitHub of Facebook webhooks.
+You can then generate this token in your API using the payload and secret, and ensure it matches the X-Hub-Signature
+header value.
+
+Various implementations of this are available, some samples below.
+
+## X-Hub-Signature validation examples
+
+### Node express
+
+An example using [express-x-hub](https://github.com/alexcurtis/express-x-hub)
+
+```javascript
+const xhub = require('express-x-hub');
+app.use(xhub({ algorithm: 'sha256', secret: XHUB_SECRET_HERE }));
+app.use(bodyParser());
+app.use(methodOverride());
+```
+
+Please ensure you use the sha256 algorithm rather than sha1. 
 
 ## Building the code base
 
