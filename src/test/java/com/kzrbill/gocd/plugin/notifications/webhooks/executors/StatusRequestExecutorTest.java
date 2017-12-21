@@ -16,8 +16,12 @@
 
 package com.kzrbill.gocd.plugin.notifications.webhooks.executors;
 
+import com.kzrbill.gocd.plugin.notifications.webhooks.PluginRequest;
+import com.kzrbill.gocd.plugin.notifications.webhooks.inputs.PluginRequestInputs;
+import com.kzrbill.gocd.plugin.notifications.webhooks.requests.StatusRequest;
 import com.kzrbill.gocd.plugin.notifications.webhooks.stubs.ApiRequestStub;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+import org.junit.Assert;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
@@ -25,6 +29,18 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class StatusRequestExecutorTest {
+
+    @Test
+    public void postsStatusUpdatesToTheApi() throws Exception {
+        ApiRequestStub apiRequest =  new ApiRequestStub();
+        PluginRequest pluginRequest2 = PluginRequestInputs.withSettingsJson("{ \"api_url\": \"https://some.api.url/go-status-update/\" }");
+        StatusRequest statusRequest = StatusRequest.fromJSON("{\"pipeline\":{\"name\":\"A pipeline name\"}}");
+        new StatusRequestExecutor(statusRequest, pluginRequest2, apiRequest)
+                .execute();
+
+        Assert.assertEquals(1, apiRequest.totalPostsCalls());
+        Assert.assertEquals("{\"pipeline\":{\"name\":\"A pipeline name\"}}", apiRequest.requestJsonSent());
+    }
 
     @Test
     public void shouldRenderASuccessResponseIfNotificationWasSent() throws Exception {
@@ -50,11 +66,5 @@ public class StatusRequestExecutorTest {
 
         assertThat(response.responseCode(), is(200));
         JSONAssert.assertEquals("{\"status\":\"failure\",\"message\":\"Boom!\"}", response.responseBody(), true);
-    }
-
-    @Test
-    public void postsStatusUpdatesToTheApi() throws Exception {
-        ApiRequestStub apiRequest =  new ApiRequestStub();
-        StatusRequestExecutor executor = new StatusRequestExecutor(null, null, apiRequest);
     }
 }

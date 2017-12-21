@@ -1,0 +1,44 @@
+{
+  "pipeline": {
+    "name": "gometric_pull_and_accept_pipeline",
+    "counter": "41",
+    "group": "go",
+    "build-cause": [
+      {
+        "material": {
+          "git-configuration": {
+            "shallow-clone": false,
+            "branch": "master",
+            "url": "https://github.com/kzrbill/gometrics"
+          },
+          "type": "git"
+        },
+        "changed": true,
+        "modifications": [
+          {
+            "revision": "dd281569af5177bc8f8022c940574d5483b7f72a",
+            "modified-time": "Dec 9, 2017 11:46:18 AM",
+            "data": {}
+          }
+        ]
+      }
+    ],
+    "stage": {
+      "name": "node_accepts_stage",
+      "counter": "19",
+      "approval-type": "success",
+      "approved-by": "gouser",
+      "state": "Building",
+      "result": "Unknown",
+      "create-time": "Dec 13, 2017 4:06:00 PM",
+      "jobs": [
+        {
+          "name": "npm_test_job",
+          "schedule-time": "Dec 13, 2017 4:06:00 PM",
+          "state": "Scheduled",
+          "result": "Unknown"
+        }
+      ]
+    }
+  }
+}
