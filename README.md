@@ -2,7 +2,7 @@
 
 Simple webhooks plugin so go can send stage status update to your rest API.
 
-Configure a rest endpoint to receive POST request from go with payloads that look like this:
+Create a REST endpoint to receive POST request from Go with JSON body payloads that are structured like this:
 
 ```json
 {
@@ -51,7 +51,12 @@ Configure a rest endpoint to receive POST request from go with payloads that loo
 }
 ```
 
-Until the functionality is added to the plugin, you will need to update the URL in StatusRequestExecutor postStageToApi method, then build.
+## Configuration
+
+Set your API url in the "Webhook Notifications Plugin"'s plugin settings accessible by clicking on the little cog icon.
+
+Note: Secret not implemented at this time but will be used to create a header token with the post body using the SHA1
+algorithm, as per GitHub's webhook authorization approach.
 
 ## Building the code base
 
