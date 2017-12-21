@@ -50,6 +50,10 @@ public class StatusRequest {
         return new StatusRequestExecutor(this, pluginRequest);
     }
 
+    public String toJson() {
+        return GSON.toJson(this);
+    }
+
     public static class Pipeline {
         @SerializedName("name")
         public String name;

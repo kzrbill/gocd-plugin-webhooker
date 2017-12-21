@@ -56,7 +56,7 @@ Create a REST endpoint to receive POST request from Go with JSON body payloads t
 Set your API url in the "Webhook Notifications Plugin"'s plugin settings accessible by clicking on the little cog icon.
 
 Note: Secret not implemented at this time but will be used to create a header token with the post body using the SHA1
-algorithm, as per GitHub's webhook authorization approach.
+algorithm, as per GitHub's [webhook authorization approach](https://developer.github.com/webhooks/securing/).
 
 ## Building the code base
 

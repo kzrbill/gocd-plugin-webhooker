@@ -31,7 +31,13 @@ import com.mashape.unirest.http.Unirest;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+import org.apache.commons.codec.binary.Hex;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.apache.commons.codec.digest.Sha2Crypt;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class StatusRequestExecutor implements RequestExecutor {
@@ -71,12 +77,22 @@ public class StatusRequestExecutor implements RequestExecutor {
     }
 
     private void postStageToApi() throws Exception {
-        String stageStatusJson = GSON.toJson(request);
+        String stageStatusJson = request.toJson();
         PluginSettings settings = this.pluginRequest.getPluginSettings();
         JsonResponse jsonResponse = this.apiRequest.post(settings.getApiUrl())
+                .header("X-Hub-Signature", makeToken(settings.getSecret(), stageStatusJson))
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
                 .body(stageStatusJson)
                 .asJson();
+    }
+
+    public static String makeToken(String secret, String data) throws Exception {
+        Mac hmacSHA256 = Mac.getInstance("HmacSHA256");
+        byte[] secretBytes = secret.getBytes("UTF-8");
+        SecretKeySpec secretKey = new SecretKeySpec(secretBytes, "HmacSHA256");
+        hmacSHA256.init(secretKey);
+        byte[] dataBytes = data.getBytes("UTF-8");
+        return Hex.encodeHexString(hmacSHA256.doFinal(dataBytes));
     }
 }

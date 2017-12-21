@@ -36,4 +36,8 @@ public class ApiRequestStub implements ApiRequest {
     public int totalPostsCalls() {
         return posts.size();
     }
+
+    public String appliedHeader(String headerName) {
+        return headers.get(headerName);
+    }
 }

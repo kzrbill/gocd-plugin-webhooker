@@ -31,13 +31,22 @@ import static org.junit.Assert.assertThat;
 public class StatusRequestExecutorTest {
 
     @Test
-    public void postsStatusUpdatesToTheApi() throws Exception {
+    public void postsStatusUpdatesToTheApiWithToken() throws Exception {
+
         ApiRequestStub apiRequest =  new ApiRequestStub();
-        PluginRequest pluginRequest2 = PluginRequestInputs.withSettingsJson("{ \"api_url\": \"https://some.api.url/go-status-update/\" }");
+
+        String settingsJson = "{" +
+                "\"api_url\": \"https://some.api.url/go-status-update/\"," +
+                "\"secret\": \"Ashes to ashes, funk to funky\"" +
+                "}";
+
+        PluginRequest pluginRequest = PluginRequestInputs.withSettingsJson(settingsJson);
+
         StatusRequest statusRequest = StatusRequest.fromJSON("{\"pipeline\":{\"name\":\"A pipeline name\"}}");
-        new StatusRequestExecutor(statusRequest, pluginRequest2, apiRequest)
+        new StatusRequestExecutor(statusRequest, pluginRequest, apiRequest)
                 .execute();
 
+        Assert.assertEquals("3bcfc9bea8f1d9122d7efb95889db15ac6c975bd9b76835332b26d91e0edb634", apiRequest.appliedHeader("X-Hub-Signature"));
         Assert.assertEquals(1, apiRequest.totalPostsCalls());
         Assert.assertEquals("{\"pipeline\":{\"name\":\"A pipeline name\"}}", apiRequest.requestJsonSent());
     }
