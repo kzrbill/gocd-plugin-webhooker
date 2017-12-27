@@ -77,10 +77,33 @@ An example using [express-x-hub](https://github.com/alexcurtis/express-x-hub)
 const xhub = require('express-x-hub');
 app.use(xhub({ algorithm: 'sha256', secret: XHUB_SECRET_HERE }));
 app.use(bodyParser());
-app.use(methodOverride());
+
+const router = require('express').Router()
+router.use(handleXHub)
+
+function handleXHub(req, res, next){
+    if(!req.isXHub) {
+        return res.status(400).send({message: 'No X-Hub-Signature header'})
+    }
+
+    if(!req.isXHubValid())  {
+        return res.status(400).send({message: 'Invalid X-Hub Request'})
+    }
+
+    console.log('X-Hub Request Was Valid')
+        next()
+    }
+
+router.post('/status', (req, res) => {
+    // handle status update from go in req.body
+})
 ```
 
-Please ensure you use the sha256 algorithm rather than sha1. 
+### ASP.Net
+
+[Validate and Secure GitHub Webhooks In C# With ASP.NET Core MVC](http://michaco.net/blog/HowToValidateGitHubWebhooksInCSharpWithASPNETCoreMVC)
+
+Please ensure you use the sha256 algorithm rather than sha1.
 
 ## Building the code base
 
